@@ -12,9 +12,12 @@ Cách chạy:
 from google import genai
 from google.genai import types
 
+from dotenv import load_dotenv
+
+load_dotenv()
 client = genai.Client()
 
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-3-flash-preview"
 
 SYSTEM_INSTRUCTION = (
     "Bạn là trợ lý thời tiết thân thiện, trả lời bằng tiếng Việt tự nhiên. "
@@ -64,6 +67,10 @@ def get_weather(city: str) -> str:
             "gió": {"hướng": "Đông", "tốc_độ": "10 km/h"},
         },
     }
+    mock_data["Hanoi"] = mock_data["Hà Nội"]
+    mock_data["Da Nang"] = mock_data["Đà Nẵng"]
+    mock_data["Danang"] = mock_data["Đà Nẵng"]
+    mock_data["Ho Chi Minh"] = mock_data["Hồ Chí Minh"]
     import json
 
     default = {"nhiệt_độ": "28°C", "thời_tiết": "không có dữ liệu chi tiết"}

@@ -2,11 +2,15 @@ from typing import Any
 import asyncio
 import httpx
 import os
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
+from dotenv import load_dotenv
 
-# Initialize FastMCP server
+# Load environment variables
+load_dotenv()
+
+# Initialize MCP server
 port = int(os.getenv("PORT", 8085))
-mcp = FastMCP("weather", host="0.0.0.0", port=port)
+mcp = MCPServer("weather")
 
 # Constants
 WEATHERAPI_BASE = "https://api.weatherapi.com/v1"
@@ -146,7 +150,7 @@ if __name__ == "__main__":
     
     if is_cloud_run or is_standalone:
         print(f"🚀 Starting MCP server on http://0.0.0.0:{port}/mcp")
-        mcp.run(transport="streamable-http")
+        mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
     else:
         print("Starting FastMCP server in stdio mode for local client", file=sys.stderr)
         mcp.run()
